@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatbot</title>
+    <style>
+        /* Add some basic styling */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .chat-container {
+            margin-top: 20px;
+            border: 1px solid #ddd;
+            padding: 10px;
+            height: 300px;
+            overflow-y: scroll;
+        }
+        .message {
+            margin-bottom: 10px;
+        }
+        .user-message {
+            background-color: #e6f2ff;
+            padding: 10px;
+            border-radius: 5px;
+            align-self: flex-end;
+        }
+        .bot-message {
+            background-color: #f2f2f2;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .chat-input {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Chatbot</h1>
+
+    <!-- Chat container -->
+    <div class="chat-container" id="chat-container"></div>
+
+    <!-- Chat input -->
+    <input type="text" class="chat-input" id="chat-input" placeholder="Type your message here...">
+
+</div>
+
+<script>
+    const chatContainer = document.getElementById('chat-container');
+    const chatInput = document.getElementById('chat-input');
+
+    // Function to add message to chat container
+    function addMessage(message, sender) {
+        const messageElement = document.createElement('div');
+        messageElement.classList.add('message');
+        if (sender === 'user') {
+            messageElement.classList.add('user-message');
+        } else {
+            messageElement.classList.add('bot-message');
+        }
+        messageElement.innerText = message;
+        chatContainer.appendChild(messageElement);
+        chatContainer.scrollTop = chatContainer.scrollHeight;
+    }
+
+    // Function to handle user input
+    function handleUserInput() {
+        const userInput = chatInput.value.trim();
+        if (userInput !== '') {
+            addMessage(userInput, 'user');
+            // Respond to user input
+            respondToUser(userInput);
+            chatInput.value = '';
+        }
+    }
+
+    // Function to generate bot response
+    function respondToUser(userInput) {
+        // Simple logic to generate bot response
+        let botResponse = '';
+        if (userInput.toLowerCase().includes('hello')) {
+            botResponse = 'Hello there!';
+        } else if (userInput.toLowerCase().includes('how are you')) {
+            botResponse = 'I am just a bot, but thank you for asking!';
+        } else {
+            botResponse = 'I did not understand that. Can you please rephrase?';
+        }
+        // Add bot response to chat container after a short delay to simulate typing
+        setTimeout(() => {
+            addMessage(botResponse, 'bot');
+        }, 500);
+    }
+
+    // Event listener for enter key press
+    chatInput.addEventListener('keypress', function(event) {
+        if (event.key === 'Enter') {
+            handleUserInput();
+        }
+    });
+</script>
+
+</body>
+</html>
